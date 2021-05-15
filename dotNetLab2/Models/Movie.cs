@@ -22,6 +22,7 @@ namespace dotNetLab2.Models
         [Range(1, 10)]
         public int Rating { get; set; }
         public Boolean Watched { get; set; }
+        public List<Comment> Comments { get; set; }
 
     }
 }

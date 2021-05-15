@@ -11,5 +11,7 @@ namespace dotNetLab2.Models
         public long Id { get; set; }
         public string Text { get; set; }
         public Boolean Important { get; set; }
+
+        public Movie Movie { get; set; }
     }
 }

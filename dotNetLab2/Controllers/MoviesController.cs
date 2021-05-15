@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using dotNetLab2.Data;
 using dotNetLab2.Models;
+using dotNetLab2.ViewModels;
 
 namespace dotNetLab2.Controllers
 {
@@ -36,16 +37,31 @@ namespace dotNetLab2.Controllers
 
         // GET: api/Movies/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Movie>> GetMovie(long id)
+        public async Task<ActionResult<MovieViewModel>> GetMovie(long id)
         {
             var movie = await _context.Movies.FindAsync(id);
+
+            // look at automapper
+            var movieViewModel = new MovieViewModel
+            {
+                Title = movie.Title,
+                Description = movie.Description,
+                Gender = movie.Gender,
+                DurationInMinutes = movie.DurationInMinutes,
+                YearOfRelease = movie.YearOfRelease,
+                Director = movie.Director,
+                DateAdded = movie.DateAdded,
+                Rating = movie.Rating,
+                Watched = movie.Watched,
+               // Comments = movie.Comments
+            };
 
             if (movie == null)
             {
                 return NotFound();
             }
 
-            return movie;
+            return movieViewModel;
         }
 
         // PUT: api/Movies/5

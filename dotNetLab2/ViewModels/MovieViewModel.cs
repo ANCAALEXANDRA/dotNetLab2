@@ -17,6 +17,7 @@ namespace dotNetLab2.ViewModels
         public DateTime DateAdded { get; set; }
         public int Rating { get; set; }
         public Boolean Watched { get; set; }
+        public List<CommentViewModel> Comments { get; set; }
 
     }
 }
