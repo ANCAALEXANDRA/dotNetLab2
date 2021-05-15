@@ -39,7 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\MoviesController.cs" />
+    <Compile Remove="Controllers\Movies1Controller.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,10 +47,6 @@
     <None Remove="ClientApp\src\app\movies\movies.component.html" />
     <None Remove="ClientApp\src\app\movies\movies.component.spec.ts" />
     <None Remove="ClientApp\src\app\movies\movies.component.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
