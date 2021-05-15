@@ -22,19 +22,14 @@ namespace dotNetLab2.Controllers
         }
 
         // GET: api/Movies
+        //[Route(@"daterange/{startDate:regex(^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$)}/{endDate:regex(^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$)}")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Movie>>> GetMovies()
+        //public async Task<ActionResult<IEnumerable<Movie>>> GetMovies(DateTime startDate, DateTime endDate)
         {
-            //try
-            //{
-            //    IList<Movie> movies = await _context.Movies(movieCode, dateStart.ToUniversalTime(), dateEnd.ToUniversalTime());
-            //    return Ok(movies);
-            //}
-            //catch (Exception ex)
-            //{
-            //    return NotFound();
-            //}
+            
             IQueryable<Movie> result = _context.Movies;
+
             return await result.OrderByDescending(m => m.YearOfRelease).ToListAsync();
            
     }
