@@ -16,7 +16,7 @@ namespace dotNetLab2.Models
         //[Contains(new[] { "action", "thriller", "comedy", "horror" })]
         public string Gender { get; set; }
         public int DurationInMinutes { get; set; }
-        public DateTime YearOfRelease { get; set; }
+        public string YearOfRelease { get; set; }
         public string Director { get; set; }
         public DateTime DateAdded { get; set; }
         [Range(1, 10)]

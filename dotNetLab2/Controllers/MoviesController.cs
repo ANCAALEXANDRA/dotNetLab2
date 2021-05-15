@@ -25,8 +25,19 @@ namespace dotNetLab2.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Movie>>> GetMovies()
         {
-            return await _context.Movies.ToListAsync();
-        }
+            //try
+            //{
+            //    IList<Movie> movies = await _context.Movies(movieCode, dateStart.ToUniversalTime(), dateEnd.ToUniversalTime());
+            //    return Ok(movies);
+            //}
+            //catch (Exception ex)
+            //{
+            //    return NotFound();
+            //}
+            IQueryable<Movie> result = _context.Movies;
+            return await result.OrderByDescending(m => m.YearOfRelease).ToListAsync();
+           
+    }
 
         // GET: api/Movies/5
         [HttpGet("{id}")]
