@@ -12,6 +12,7 @@ namespace dotNetLab2.Models
         public string Text { get; set; }
         public Boolean Important { get; set; }
 
+        public int MovieId { get; set; }
         public Movie Movie { get; set; }
     }
 }

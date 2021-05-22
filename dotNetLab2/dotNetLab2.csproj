@@ -13,6 +13,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="5.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.6" />
@@ -24,29 +26,44 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.2.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
-    <Compile Remove="ClientApp\src\app\movies\**" />
     <Content Remove="$(SpaRoot)**" />
-    <Content Remove="ClientApp\src\app\movies\**" />
-    <EmbeddedResource Remove="ClientApp\src\app\movies\**" />
     <None Remove="$(SpaRoot)**" />
-    <None Remove="ClientApp\src\app\movies\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\CommentsController.cs" />
     <Compile Remove="Controllers\Movies1Controller.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="ClientApp\src\app\movies\movies.component.css" />
-    <None Remove="ClientApp\src\app\movies\movies.component.html" />
-    <None Remove="ClientApp\src\app\movies\movies.component.spec.ts" />
-    <None Remove="ClientApp\src\app\movies\movies.component.ts" />
+    <None Remove="ClientApp\src\app\movies\movie.model.ts" />
+    <None Remove="ClientApp\src\app\movies\movies-list\movies-list.component.css" />
+    <None Remove="ClientApp\src\app\movies\movies-list\movies-list.component.ts" />
+    <None Remove="ClientApp\src\app\movies\movies.model.js" />
+    <None Remove="ClientApp\src\app\movies\movies.model.js.map" />
+    <None Remove="ClientApp\src\app\movies\movies.model.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Remove="ClientApp\src\app\movies\movies.model.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\Migrations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\movies\movies-list\movies-list.component.css" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

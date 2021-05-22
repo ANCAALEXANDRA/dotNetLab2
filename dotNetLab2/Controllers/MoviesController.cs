@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
 using dotNetLab2.Data;
 using dotNetLab2.Models;
 using dotNetLab2.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using AutoMapper;
 
 namespace dotNetLab2.Controllers
 {
@@ -16,20 +18,31 @@ namespace dotNetLab2.Controllers
     public class MoviesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<MoviesController> _logger;
+        private readonly IMapper _mapper;
 
-        public MoviesController(ApplicationDbContext context)
+        public MoviesController(ApplicationDbContext context, ILogger<MoviesController> logger, IMapper mapper)
         {
             _context = context;
+            _logger = logger;
+            _mapper = mapper;
         }
 
         // GET: api/Movies
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Movie>>> GetMovies()
+        {
+             return await _context.Movies.ToListAsync();
+        }
+
+        // GET: api/Movies/filter
         [HttpGet("startDate & endDate")]
         [Route("filter")]
         //public async Task<ActionResult<IEnumerable<Movie>>> GetMovies()
         public async Task<ActionResult<IEnumerable<Movie>>> GetMovies(DateTime startDate, DateTime endDate)
         {
-            
-            if(startDate == null || endDate == null)
+
+            if (startDate == null || endDate == null)
             {
                 return _context.Movies.ToList();
             }
@@ -37,38 +50,74 @@ namespace dotNetLab2.Controllers
 
 
             //IQueryable<Movie> result = _context.Movies;
-            return  movie.OrderByDescending(m => m.YearOfRelease).ToList();
-           
-    }
+            return movie.OrderByDescending(m => m.YearOfRelease).ToList();
+
+        }
+
+        [HttpGet("{id}/Comments")]
+        public ActionResult<IEnumerable<MovieWithCommentsViewModel>> GetCommentsforMovie(int id)
+        {
+            //var query = _context.Comments.Where(c => c.Movie.Id == id).Include(c => c.Movie).Select(c => new MovieWithCommentsViewModel
+            //{
+            //    Id = (int)c.Movie.Id,
+            //    Title = c.Movie.Title,
+            //    Gender = c.Movie.Gender,
+            //    YearOfRelease = c.Movie.YearOfRelease,
+            //    Director = c.Movie.Director,
+            //    Rating = c.Movie.Rating,
+            //     Comments = c.Movie.Comments.Select(mc => new CommentViewModel
+            //    {
+            //        Id = mc.Id,
+            //        Text = mc.Text,
+            //        Important = mc.Important
+            //    }).ToList()
+            //});
+
+            //var movieWithComments = query.ToList();
+            //return Ok(movieWithComments);
+
+            var query = _context.Movies.Where(m => m.Id == id).Include(m => m.Comments).Select(m => _mapper.Map<MovieWithCommentsViewModel>(m));
+            var queryForCommentMovieId = _context.Comments;
+
+            _logger.LogInformation(queryForCommentMovieId.ToList()[0].MovieId.ToString());
+             _logger.LogInformation(query.ToQueryString());
+
+            return query.ToList();
+
+        }
+
+        [HttpPost("{id}/Comments")]
+        public IActionResult PostCommentForMovie(int id, Comment comment)
+        {
+            var movie = _context.Movies.Where(m => m.Id == id).Include(m => m.Comments).FirstOrDefault();
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
+            movie.Comments.Add(comment);
+            _context.Entry(movie).State = EntityState.Modified;
+            _context.SaveChanges();
+
+            return Ok();
+        }
+
 
         // GET: api/Movies/5
         [HttpGet("{id}")]
         public async Task<ActionResult<MovieViewModel>> GetMovie(long id)
         {
             var movie = await _context.Movies.FindAsync(id);
-
-            // look at automapper
-            var movieViewModel = new MovieViewModel
-            {
-                Title = movie.Title,
-                Description = movie.Description,
-                Gender = movie.Gender,
-                DurationInMinutes = movie.DurationInMinutes,
-                YearOfRelease = movie.YearOfRelease,
-                Director = movie.Director,
-                DateAdded = movie.DateAdded,
-                Rating = movie.Rating,
-                Watched = movie.Watched,
-               // Comments = movie.Comments
-            };
-
             if (movie == null)
             {
                 return NotFound();
             }
 
+            var movieViewModel = _mapper.Map<MovieViewModel>(movie);
+
             return movieViewModel;
         }
+
 
         // PUT: api/Movies/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
