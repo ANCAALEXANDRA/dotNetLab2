@@ -19,7 +19,7 @@ namespace dotNetLab2.Models
         public string YearOfRelease { get; set; }
         public string Director { get; set; }
         public DateTime DateAdded { get; set; }
-        [Range(1, 10)]
+       // [Range(1, 10)]
         public int Rating { get; set; }
         public Boolean Watched { get; set; }
         public List<Comment> Comments { get; set; }

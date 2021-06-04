@@ -28,6 +28,10 @@ namespace dotNetLab2.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Return All Movies
+        /// </summary>
+        /// <returns></returns>
         // GET: api/Movies
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Movie>>> GetMovies()
@@ -35,25 +39,30 @@ namespace dotNetLab2.Controllers
              return await _context.Movies.ToListAsync();
         }
 
-        // GET: api/Movies/filter
-        [HttpGet("startDate & endDate")]
-        [Route("filter")]
-        //public async Task<ActionResult<IEnumerable<Movie>>> GetMovies()
-        public async Task<ActionResult<IEnumerable<Movie>>> GetMovies(DateTime startDate, DateTime endDate)
-        {
+        //// GET: api/Movies/filter
+        //[HttpGet("startDate & endDate")]
+        //[Route("filter")]
+        ////public async Task<ActionResult<IEnumerable<Movie>>> GetMovies()
+        //public async Task<ActionResult<IEnumerable<Movie>>> GetMoviesFilterDate(DateTime startDate, DateTime endDate)
+        //{
 
-            if (startDate == null || endDate == null)
-            {
-                return _context.Movies.ToList();
-            }
-            var movie = _context.Movies.Where(m => m.DateAdded >= startDate && m.DateAdded <= endDate).ToList();
+        //    if (startDate == null || endDate == null)
+        //    {
+        //        return _context.Movies.ToList();
+        //    }
+        //    var movie = _context.Movies.Where(m => m.DateAdded >= startDate && m.DateAdded <= endDate).ToList();
 
 
-            //IQueryable<Movie> result = _context.Movies;
-            return movie.OrderByDescending(m => m.YearOfRelease).ToList();
+        //    //IQueryable<Movie> result = _context.Movies;
+        //    return movie.OrderByDescending(m => m.YearOfRelease).ToList();
 
-        }
+        //}
 
+        /// <summary>
+        /// Get the Comments for Movies
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}/Comments")]
         public ActionResult<IEnumerable<MovieWithCommentsViewModel>> GetCommentsforMovie(int id)
         {
@@ -86,6 +95,12 @@ namespace dotNetLab2.Controllers
 
         }
 
+        /// <summary>
+        /// Add Comments for Movies
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="comment"></param>
+        /// <returns></returns>
         [HttpPost("{id}/Comments")]
         public IActionResult PostCommentForMovie(int id, Comment comment)
         {
@@ -102,7 +117,11 @@ namespace dotNetLab2.Controllers
             return Ok();
         }
 
-
+        /// <summary>
+        /// Get movies by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET: api/Movies/5
         [HttpGet("{id}")]
         public async Task<ActionResult<MovieViewModel>> GetMovie(long id)
@@ -118,7 +137,12 @@ namespace dotNetLab2.Controllers
             return movieViewModel;
         }
 
-
+        /// <summary>
+        /// Change movie info
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="movie"></param>
+        /// <returns></returns>
         // PUT: api/Movies/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -149,12 +173,17 @@ namespace dotNetLab2.Controllers
 
             return NoContent();
         }
-
+        /// <summary>
+        /// Add Movie 
+        /// </summary>
+        /// <param name="movieRequest"></param>
+        /// <returns></returns>
         // POST: api/Movies
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Movie>> PostMovie(Movie movie)
+        public async Task<ActionResult<MovieViewModel>> PostMovie(MovieViewModel movieRequest)
         {
+            Movie movie = _mapper.Map<Movie>(movieRequest);
             _context.Movies.Add(movie);
             await _context.SaveChangesAsync();
 

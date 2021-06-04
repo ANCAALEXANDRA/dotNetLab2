@@ -8,13 +8,13 @@ import { Observable } from 'rxjs';
 })
 export class MoviesService {
 
-  private apiUrl: string;
+  //private apiUrl: string;
 
-  constructor(private httpClient: HttpClient, @Inject('API_URL') apiUrl: string) {
-    this.apiUrl = apiUrl;
-  }
+  //constructor(private httpClient: HttpClient, @Inject('API_URL') apiUrl: string) {
+  //  this.apiUrl = apiUrl;
+  //}
 
-  getMovies(): Observable<Movie[]> {
-    return this.httpClient.get<Movie[]>(this.apiUrl + 'movie');
-  }
+  //getMovies(): Observable<Movie[]> {
+  //  return this.httpClient.get<Movie[]>(this.apiUrl + 'movie');
+  //}
 }

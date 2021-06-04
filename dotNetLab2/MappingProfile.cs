@@ -9,9 +9,10 @@ namespace dotNetLab2
     {
         public MappingProfile()
         {
-            CreateMap<Movie, MovieViewModel>();//.ReverseMap();
-            CreateMap<Comment, CommentViewModel>();
-            CreateMap<Movie, MovieWithCommentsViewModel>();
+            CreateMap<Movie, MovieViewModel>().ReverseMap();
+            CreateMap<Comment, CommentViewModel>().ReverseMap();
+            CreateMap<Movie, MovieWithCommentsViewModel>().ReverseMap();
+            CreateMap<ApplicationUser, ApplicationUserViewModel>().ReverseMap();
         }
     }
 }

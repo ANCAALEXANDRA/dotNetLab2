@@ -12,16 +12,15 @@ export class MoviesListComponent {
 
   public movies: Movie[];
 
-  constructor(private moviesService: MoviesService) {
 
+  constructor(http: HttpClient, @Inject('API_URL') apiUrl: string) {
+    http.get<Movie[]>(apiUrl + 'movies').subscribe(result => {
+      this.movies = result;
+    }, error => console.error(error));
   }
 
-  getMovies() {
-    this.moviesService.getMovies().subscribe(m => this.movies = m);
-  }
 
   ngOnInit() {
-    this.getMovies();
   }
 
 }

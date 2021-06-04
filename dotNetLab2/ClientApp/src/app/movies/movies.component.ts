@@ -7,8 +7,19 @@ import { Movie } from './movie.model';
   templateUrl: './movies.component.html',
   styleUrls: ['./movies.component.css']
 })
-export class MoviesComponent  {
-  
+export class MoviesComponent implements OnInit {
+
+  public movies: Movie[];
+
+  constructor(http: HttpClient, @Inject('API_URL') apiUrl: string) {
+    http.get<Movie[]>(apiUrl + 'movies').subscribe(result => {
+      this.movies = result;
+    }, error => console.error(error));
+  }
+
+  ngOnInit() {
+  }
+
   }
 
 
