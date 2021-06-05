@@ -3,36 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using dotNetLab2.Data;
 
 namespace dotNetLab2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210604231913_ForViewMovie")]
+    partial class ForViewMovie
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("ForViewMovieMovie", b =>
-                {
-                    b.Property<int>("ForViewMoviesId")
-                        .HasColumnType("int");
-
-                    b.Property<long>("MoviesId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("ForViewMoviesId", "MoviesId");
-
-                    b.HasIndex("MoviesId");
-
-                    b.ToTable("ForViewMovieMovie");
-                });
 
             modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.DeviceFlowCodes", b =>
                 {
@@ -403,6 +390,9 @@ namespace dotNetLab2.Migrations
                     b.Property<int>("DurationInMinutes")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ForViewMovieId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
 
@@ -421,25 +411,12 @@ namespace dotNetLab2.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ForViewMovieId");
+
                     b.HasIndex("Title")
                         .IsUnique();
 
                     b.ToTable("Movies");
-                });
-
-            modelBuilder.Entity("ForViewMovieMovie", b =>
-                {
-                    b.HasOne("dotNetLab2.Models.ForViewMovie", null)
-                        .WithMany()
-                        .HasForeignKey("ForViewMoviesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("dotNetLab2.Models.Movie", null)
-                        .WithMany()
-                        .HasForeignKey("MoviesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -511,9 +488,21 @@ namespace dotNetLab2.Migrations
                     b.Navigation("ApplicationUser");
                 });
 
+            modelBuilder.Entity("dotNetLab2.Models.Movie", b =>
+                {
+                    b.HasOne("dotNetLab2.Models.ForViewMovie", null)
+                        .WithMany("Movies")
+                        .HasForeignKey("ForViewMovieId");
+                });
+
             modelBuilder.Entity("dotNetLab2.Models.ApplicationUser", b =>
                 {
                     b.Navigation("ForViewMovies");
+                });
+
+            modelBuilder.Entity("dotNetLab2.Models.ForViewMovie", b =>
+                {
+                    b.Navigation("Movies");
                 });
 
             modelBuilder.Entity("dotNetLab2.Models.Movie", b =>

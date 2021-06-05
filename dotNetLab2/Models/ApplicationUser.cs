@@ -8,5 +8,6 @@ namespace dotNetLab2.Models
 {
     public class ApplicationUser : IdentityUser
     {
+        public List<ForViewMovie> ForViewMovies { get; set; }
     }
 }

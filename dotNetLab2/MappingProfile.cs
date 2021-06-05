@@ -1,6 +1,7 @@
 ﻿using System;
 using AutoMapper;
 using dotNetLab2.Models;
+using dotNetLab2.ViewModels.ForViewMovies;
 using dotNetLab2.ViewModels;
 
 namespace dotNetLab2
@@ -13,6 +14,7 @@ namespace dotNetLab2
             CreateMap<Comment, CommentViewModel>().ReverseMap();
             CreateMap<Movie, MovieWithCommentsViewModel>().ReverseMap();
             CreateMap<ApplicationUser, ApplicationUserViewModel>().ReverseMap();
+            CreateMap<ForViewMovie, ForViewMoviesForUserResponse>().ReverseMap();
         }
     }
 }
