@@ -7,7 +7,7 @@ namespace dotNetLab2.ViewModels
 {
     public class CommentViewModel
     {
-        public long Id { get; set; }
+        public int Id { get; set; }
         public string Text { get; set; }
         public Boolean Important { get; set; }
     }

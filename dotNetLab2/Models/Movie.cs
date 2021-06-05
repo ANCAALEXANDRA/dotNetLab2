@@ -23,7 +23,6 @@ namespace dotNetLab2.Models
         public int Rating { get; set; }
         public Boolean Watched { get; set; }
         public List<Comment> Comments { get; set; }
-
         public List<ForViewMovie> ForViewMovies { get; set; }
     }
 }

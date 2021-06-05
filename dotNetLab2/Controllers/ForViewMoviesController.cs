@@ -70,16 +70,16 @@ namespace dotNetLab2.Controllers
             return Ok();
         }
 
-        //[HttpGet]
-        //public async Task<ActionResult> GetAll()
-        //{
-        //    var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+        [HttpGet]
+        public async Task<ActionResult> GetAll()
+        {
+            var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-        //    var result = _context.Movies.Where(o => o.ApplicationUser.Id == user.Id).Include(o => o.Movies).FirstOrDefault();
-        //    var resultViewModel = _mapper.Map<ForViewMoviesForUserResponse>(result);
+            var result = _context.ForViewMovies.Where(m => m.ApplicationUser.Id == user.Id).Include(m => m.Movies).FirstOrDefault();
+            var resultViewModel = _mapper.Map<ForViewMoviesForUserResponse>(result);
 
-        //    return Ok(resultViewModel);
-        //}
+            return Ok(resultViewModel);
+        }
 
     }
     }
