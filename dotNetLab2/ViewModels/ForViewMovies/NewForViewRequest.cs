@@ -7,7 +7,7 @@ namespace dotNetLab2.ViewModels.ForViewMovies
 {
     public class NewForViewRequest
     {
-        public List<int> ViewedMoviesIds { get; set; }
+        public List<long> ViewedMoviesIds { get; set; }
         public DateTime? ViewDateTime { get; set; }
     }
 }
