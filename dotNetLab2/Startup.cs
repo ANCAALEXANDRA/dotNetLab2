@@ -22,6 +22,7 @@ using FluentValidation.AspNetCore;
 using dotNetLab2.ViewModels;
 using FluentValidation;
 using dotNetLab2.Validators;
+using dotNetLab2.Services;
 
 namespace dotNetLab2
 {
@@ -110,7 +111,7 @@ namespace dotNetLab2
 
             services.AddTransient<IValidator<MovieViewModel>, MovieValidator>();
             services.AddTransient<IValidator<CommentViewModel>, CommentValidator>();
-
+            services.AddTransient<IAuthManagementService, AuthManagementService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
