@@ -4,6 +4,7 @@ using dotNetLab2.Models;
 using dotNetLab2.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,9 +35,10 @@ namespace dotNetLab2.Controllers
         /// <returns></returns>
         // GET: api/Movies
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Movie>>> GetMovies()
+        public async Task<ActionResult<IEnumerable<MovieViewModel>>> GetMovies()
         {
-             return await _context.Movies.ToListAsync();
+            var movies = await _context.Movies.Select(m => _mapper.Map<MovieViewModel>(m)).ToListAsync();
+            return movies;
         }
 
         //// GET: api/Movies/filter
@@ -101,6 +103,7 @@ namespace dotNetLab2.Controllers
         /// <param name="id"></param>
         /// <param name="comment"></param>
         /// <returns></returns>
+        [Authorize(AuthenticationSchemes = "Identity.Application, Bearer")]
         [HttpPost("{id}/Comments")]
         public IActionResult PostCommentForMovie(int id, Comment comment)
         {
@@ -145,6 +148,7 @@ namespace dotNetLab2.Controllers
         /// <returns></returns>
         // PUT: api/Movies/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(AuthenticationSchemes = "Identity.Application, Bearer")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutMovie(long id, Movie movie)
         {
@@ -180,6 +184,7 @@ namespace dotNetLab2.Controllers
         /// <returns></returns>
         // POST: api/Movies
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(AuthenticationSchemes = "Identity.Application, Bearer")]
         [HttpPost]
         public async Task<ActionResult<MovieViewModel>> PostMovie(MovieViewModel movieRequest)
         {
@@ -189,8 +194,13 @@ namespace dotNetLab2.Controllers
 
             return CreatedAtAction("GetMovie", new { id = movie.Id }, movie);
         }
-
+        /// <summary>
+        /// Delete a movie by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // DELETE: api/Movies/5
+        [Authorize(AuthenticationSchemes = "Identity.Application, Bearer")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMovie(long id)
         {
@@ -209,6 +219,70 @@ namespace dotNetLab2.Controllers
         private bool MovieExists(long id)
         {
             return _context.Movies.Any(e => e.Id == id);
+        }
+
+
+        /// <summary>
+        /// Updates a comment
+        /// </summary>
+        /// <param name="commentId">The comment ID</param>
+        /// <param name="comment">the comment</param>
+        /// <returns>If comment updates: NoContent, BadRequest if the ID is not valid, or NotFound if comment was not found</returns>
+        [Authorize(AuthenticationSchemes = "Identity.Application, Bearer")]
+        [HttpPut("{id}/Comments/{commentId}")]
+        public async Task<IActionResult> PutComment(int commentId, CommentViewModel comment)
+        {
+            if (commentId != comment.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(_mapper.Map<Comment>(comment)).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CommentExists(commentId))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+
+        /// <summary>
+        /// Deletes a comment
+        /// </summary>
+        /// <param name="commentId">ID of the comment</param>
+        /// <returns>NoContent if the comment was deleted successfully, or NotFound</returns>
+        [Authorize(AuthenticationSchemes = "Identity.Application, Bearer")]
+        [HttpDelete("{id}/Comments/{commentId}")]
+        public async Task<IActionResult> DeleteComment(int commentId)
+        {
+            var comment = await _context.Comments.FindAsync(commentId);
+            if (comment == null)
+            {
+                return NotFound();
+            }
+
+            _context.Comments.Remove(comment);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool CommentExists(int id)
+        {
+            return _context.Comments.Any(c => c.Id == id);
         }
     }
 }

@@ -68,6 +68,8 @@ namespace dotNetLab2
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:SigningKey"]))
                     };
                 });
+
+
             services.AddControllersWithViews()
                 .AddFluentValidation()
                  .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter()));
@@ -107,6 +109,8 @@ namespace dotNetLab2
             });
 
             services.AddTransient<IValidator<MovieViewModel>, MovieValidator>();
+            services.AddTransient<IValidator<CommentViewModel>, CommentValidator>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -116,7 +120,7 @@ namespace dotNetLab2
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Movie Playlist");
                  
                 });
 
@@ -124,6 +128,12 @@ namespace dotNetLab2
             {
                 app.UseDeveloperExceptionPage();
                 app.UseMigrationsEndPoint();
+
+                app.UseCors(builder =>
+                    builder.AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        );
             }
             else
             {
@@ -144,7 +154,7 @@ namespace dotNetLab2
             });
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Movie Playlist");
                 c.RoutePrefix = string.Empty;
             });
 

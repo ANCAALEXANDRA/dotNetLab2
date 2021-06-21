@@ -36,8 +36,9 @@ namespace dotNetLab2.Controllers
                 _mapper = mapper;
                 _userManager = userManager;
             }
-
-            [HttpPost]
+        
+        [Authorize(AuthenticationSchemes = "Identity.Application, Bearer")]
+        [HttpPost]
             public async Task<ActionResult> PlaceForViewMovie(NewForViewRequest newForViewRequest)
             {
                 var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
@@ -71,14 +72,64 @@ namespace dotNetLab2.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAll()
+        public async Task<ActionResult<IEnumerable<ForViewMoviesForUserResponse>>> GetAll()
         {
             var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            var result = _context.ForViewMovies.Where(m => m.ApplicationUser.Id == user.Id).Include(m => m.Movies).FirstOrDefault();
-            var resultViewModel = _mapper.Map<ForViewMoviesForUserResponse>(result);
+            if (user == null)
+            {
+                return NotFound();
+            }
 
-            return Ok(resultViewModel);
+            var result = _context.ForViewMovies.Where(f => f.ApplicationUser.Id == user.Id).Include(f => f.Movies).ToList();
+            return _mapper.Map<List<ForViewMovie>, List<ForViewMoviesForUserResponse>>(result);
+        }
+
+        [HttpPut]
+        [Authorize(AuthenticationSchemes = "Identity.Application, Bearer")]
+        public async Task<ActionResult> EditForViewMovie(EditForViewMovieForUser editForViewMovieRequest)
+        {
+            var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            ForViewMovie ForViewMovies = _context.ForViewMovies.Where(f => f.Id == editForViewMovieRequest.Id && f.ApplicationUser.Id == user.Id).Include(f => f.Movies).FirstOrDefault();
+
+            if (ForViewMovies == null)
+            {
+                return BadRequest("There is no ForViewMovie with this ID.");
+            }
+
+            editForViewMovieRequest.MovieIDs.ForEach(mid =>
+            {
+                var movie = _context.Movies.Find(mid);
+                if (movie != null && !ForViewMovies.Movies.Contains(movie))
+                {
+                    ForViewMovies.Movies.ToList().Add(movie);
+                }
+            });
+
+            _context.Entry(ForViewMovies).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return Ok();
+
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = "Identity.Application, Bearer")]
+        public async Task<IActionResult> DeleteForViewMovies(int id)
+        {
+            var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            var ForViewMovies = _context.ForViewMovies.Where(f => f.ApplicationUser.Id == user.Id && f.Id == id).FirstOrDefault();
+
+            if (ForViewMovies == null)
+            {
+                return NotFound();
+            }
+
+            _context.ForViewMovies.Remove(ForViewMovies);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
 
     }

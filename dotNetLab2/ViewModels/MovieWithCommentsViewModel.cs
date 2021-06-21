@@ -7,7 +7,7 @@ namespace dotNetLab2.ViewModels
 {
     public class MovieWithCommentsViewModel
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string Title { get; set; }
   
         public string Gender { get; set; }

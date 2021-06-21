@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AutoMapper.Configuration;
 using dotNetLab2.Data;
 using dotNetLab2.Models;
 using dotNetLab2.ViewModels.Authentification;
@@ -12,9 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Microsoft.Extensions.Configuration;
 
 namespace dotNetLab2.Controllers
@@ -26,12 +22,12 @@ namespace dotNetLab2.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ApplicationDbContext _context;
-        private readonly Microsoft.Extensions.Configuration.IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
 
         public AuthentificationController(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ApplicationDbContext context,
-            Microsoft.Extensions.Configuration.IConfiguration configuration)
+            IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
