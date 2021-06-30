@@ -193,7 +193,15 @@
             },
             "NUnit3TestAdapter": {
               "target": "Package",
-              "version": "[3.16.1, )"
+              "version": "[4.0.0, )"
+            },
+            "Selenium.WebDriver": {
+              "target": "Package",
+              "version": "[3.141.0, )"
+            },
+            "Selenium.WebDriver.ChromeDriver": {
+              "target": "Package",
+              "version": "[92.0.4515.4300-beta, )"
             }
           },
           "imports": [

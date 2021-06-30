@@ -1665,7 +1665,7 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "Swashbuckle/5.6.0": {
+      "Selenium.WebDriver.ChromeDriver/92.0.4515.4300-beta": {
         "type": "package",
         "dependencies": {
           "Microsoft.AspNet.WebApi.WebHost": "4.0.20710",
@@ -5717,155 +5717,22 @@
         "runtime.native.system.nuspec"
       ]
     },
-    "Swashbuckle/5.6.0": {
-      "sha512": "UAE91ynpgvwoUs8igq3k/D0HV+cHrGRGJR9cwIPGE08hHJenn24MR2vq1n6NYbDWEwAVm+RYUW+qIsO9p5Sn/Q==",
+    "Selenium.WebDriver.ChromeDriver/92.0.4515.4300-beta": {
+      "sha512": "uiJgnnM4Qj+DsMxmOcvL5Wtt3AYDZq9AYNamlOsmghbeCMEuHBs9K2C9bScKYjegyJEAnOfIU/edNoGKGUTsOg==",
       "type": "package",
-      "path": "swashbuckle/5.6.0",
+      "path": "selenium.webdriver.chromedriver/92.0.4515.4300-beta",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "Content/App_Start/SwaggerConfig.cs.pp",
-        "swashbuckle.5.6.0.nupkg.sha512",
-        "swashbuckle.nuspec"
-      ]
-    },
-    "Swashbuckle.AspNetCore/6.1.4": {
-      "sha512": "aglxV+kJA5wP0RoAS8Rrh4Jp7bmVEcDAAofdSyGfea4TSEtNRLam9Fq0A4+0asUWDRk1N0/6VnuLC6+ev50wSQ==",
-      "type": "package",
-      "path": "swashbuckle.aspnetcore/6.1.4",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "build/Swashbuckle.AspNetCore.props",
-        "swashbuckle.aspnetcore.6.1.4.nupkg.sha512",
-        "swashbuckle.aspnetcore.nuspec"
-      ]
-    },
-    "Swashbuckle.AspNetCore.Swagger/6.1.4": {
-      "sha512": "5XRKPKXpQRJMdOwHgotSZjWYGKnvresUIKiUOecmDrsiTkRpUd15QJMS/+HKYjjOvWnJthYwhLJG3pABJOHwOg==",
-      "type": "package",
-      "path": "swashbuckle.aspnetcore.swagger/6.1.4",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/net5.0/Swashbuckle.AspNetCore.Swagger.dll",
-        "lib/net5.0/Swashbuckle.AspNetCore.Swagger.pdb",
-        "lib/net5.0/Swashbuckle.AspNetCore.Swagger.xml",
-        "lib/netcoreapp3.0/Swashbuckle.AspNetCore.Swagger.dll",
-        "lib/netcoreapp3.0/Swashbuckle.AspNetCore.Swagger.pdb",
-        "lib/netcoreapp3.0/Swashbuckle.AspNetCore.Swagger.xml",
-        "lib/netstandard2.0/Swashbuckle.AspNetCore.Swagger.dll",
-        "lib/netstandard2.0/Swashbuckle.AspNetCore.Swagger.pdb",
-        "lib/netstandard2.0/Swashbuckle.AspNetCore.Swagger.xml",
-        "swashbuckle.aspnetcore.swagger.6.1.4.nupkg.sha512",
-        "swashbuckle.aspnetcore.swagger.nuspec"
-      ]
-    },
-    "Swashbuckle.AspNetCore.SwaggerGen/6.1.4": {
-      "sha512": "i0Y3a3XMKz7r9vMNtB7TUIsWXpz9uJwnJ42NV3lAnmem7XpTykxm/cFJqHc9CqVBdbPf7XPvhUvEiUybRlocIg==",
-      "type": "package",
-      "path": "swashbuckle.aspnetcore.swaggergen/6.1.4",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/net5.0/Swashbuckle.AspNetCore.SwaggerGen.dll",
-        "lib/net5.0/Swashbuckle.AspNetCore.SwaggerGen.pdb",
-        "lib/net5.0/Swashbuckle.AspNetCore.SwaggerGen.xml",
-        "lib/netcoreapp3.0/Swashbuckle.AspNetCore.SwaggerGen.dll",
-        "lib/netcoreapp3.0/Swashbuckle.AspNetCore.SwaggerGen.pdb",
-        "lib/netcoreapp3.0/Swashbuckle.AspNetCore.SwaggerGen.xml",
-        "lib/netstandard2.0/Swashbuckle.AspNetCore.SwaggerGen.dll",
-        "lib/netstandard2.0/Swashbuckle.AspNetCore.SwaggerGen.pdb",
-        "lib/netstandard2.0/Swashbuckle.AspNetCore.SwaggerGen.xml",
-        "swashbuckle.aspnetcore.swaggergen.6.1.4.nupkg.sha512",
-        "swashbuckle.aspnetcore.swaggergen.nuspec"
-      ]
-    },
-    "Swashbuckle.AspNetCore.SwaggerUI/6.1.4": {
-      "sha512": "Ue8Ag73DOXPPB/NCqT7oN1PYSj35IETWROsIZG9EbwAtFDcgonWOrHbefjMFUGyPalNm6CSmVm1JInpURnxMgw==",
-      "type": "package",
-      "path": "swashbuckle.aspnetcore.swaggerui/6.1.4",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/net5.0/Swashbuckle.AspNetCore.SwaggerUI.dll",
-        "lib/net5.0/Swashbuckle.AspNetCore.SwaggerUI.pdb",
-        "lib/net5.0/Swashbuckle.AspNetCore.SwaggerUI.xml",
-        "lib/netcoreapp3.0/Swashbuckle.AspNetCore.SwaggerUI.dll",
-        "lib/netcoreapp3.0/Swashbuckle.AspNetCore.SwaggerUI.pdb",
-        "lib/netcoreapp3.0/Swashbuckle.AspNetCore.SwaggerUI.xml",
-        "lib/netstandard2.0/Swashbuckle.AspNetCore.SwaggerUI.dll",
-        "lib/netstandard2.0/Swashbuckle.AspNetCore.SwaggerUI.pdb",
-        "lib/netstandard2.0/Swashbuckle.AspNetCore.SwaggerUI.xml",
-        "swashbuckle.aspnetcore.swaggerui.6.1.4.nupkg.sha512",
-        "swashbuckle.aspnetcore.swaggerui.nuspec"
-      ]
-    },
-    "Swashbuckle.Core/5.6.0": {
-      "sha512": "GhVWgtB8hCOxQhx7zLiiRyoi6flm7fNDDGILYHWktxLMkykRUz90fhmLRZECmnbvCcepFyROiw3phS1XorhdDg==",
-      "type": "package",
-      "path": "swashbuckle.core/5.6.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/net40/Swashbuckle.Core.dll",
-        "swashbuckle.core.5.6.0.nupkg.sha512",
-        "swashbuckle.core.nuspec"
-      ]
-    },
-    "System.AppContext/4.1.0": {
-      "sha512": "3QjO4jNV7PdKkmQAVp9atA+usVnKRwI3Kx1nMwJ93T0LcQfx7pKAYk0nKz5wn1oP5iqlhZuy6RXOFdhr7rDwow==",
-      "type": "package",
-      "path": "system.appcontext/4.1.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "ThirdPartyNotices.txt",
-        "dotnet_library_license.txt",
-        "lib/MonoAndroid10/_._",
-        "lib/MonoTouch10/_._",
-        "lib/net46/System.AppContext.dll",
-        "lib/net463/System.AppContext.dll",
-        "lib/netcore50/System.AppContext.dll",
-        "lib/netstandard1.6/System.AppContext.dll",
-        "lib/xamarinios10/_._",
-        "lib/xamarinmac20/_._",
-        "lib/xamarintvos10/_._",
-        "lib/xamarinwatchos10/_._",
-        "ref/MonoAndroid10/_._",
-        "ref/MonoTouch10/_._",
-        "ref/net46/System.AppContext.dll",
-        "ref/net463/System.AppContext.dll",
-        "ref/netstandard/_._",
-        "ref/netstandard1.3/System.AppContext.dll",
-        "ref/netstandard1.3/System.AppContext.xml",
-        "ref/netstandard1.3/de/System.AppContext.xml",
-        "ref/netstandard1.3/es/System.AppContext.xml",
-        "ref/netstandard1.3/fr/System.AppContext.xml",
-        "ref/netstandard1.3/it/System.AppContext.xml",
-        "ref/netstandard1.3/ja/System.AppContext.xml",
-        "ref/netstandard1.3/ko/System.AppContext.xml",
-        "ref/netstandard1.3/ru/System.AppContext.xml",
-        "ref/netstandard1.3/zh-hans/System.AppContext.xml",
-        "ref/netstandard1.3/zh-hant/System.AppContext.xml",
-        "ref/netstandard1.6/System.AppContext.dll",
-        "ref/netstandard1.6/System.AppContext.xml",
-        "ref/netstandard1.6/de/System.AppContext.xml",
-        "ref/netstandard1.6/es/System.AppContext.xml",
-        "ref/netstandard1.6/fr/System.AppContext.xml",
-        "ref/netstandard1.6/it/System.AppContext.xml",
-        "ref/netstandard1.6/ja/System.AppContext.xml",
-        "ref/netstandard1.6/ko/System.AppContext.xml",
-        "ref/netstandard1.6/ru/System.AppContext.xml",
-        "ref/netstandard1.6/zh-hans/System.AppContext.xml",
-        "ref/netstandard1.6/zh-hant/System.AppContext.xml",
-        "ref/xamarinios10/_._",
-        "ref/xamarinmac20/_._",
-        "ref/xamarintvos10/_._",
-        "ref/xamarinwatchos10/_._",
-        "runtimes/aot/lib/netcore50/System.AppContext.dll",
-        "system.appcontext.4.1.0.nupkg.sha512",
-        "system.appcontext.nuspec"
+        "README.md",
+        "build/DefinePropertiesChromeDriver.targets",
+        "build/Selenium.WebDriver.ChromeDriver.targets",
+        "driver/linux64/chromedriver",
+        "driver/mac64/chromedriver",
+        "driver/win32/chromedriver.exe",
+        "nupkg-icon.png",
+        "selenium.webdriver.chromedriver.92.0.4515.4300-beta.nupkg.sha512",
+        "selenium.webdriver.chromedriver.nuspec"
       ]
     },
     "System.Collections/4.3.0": {
@@ -9805,11 +9672,11 @@
   },
   "projectFileDependencyGroups": {
     "net5.0": [
-      "Microsoft.EntityFrameworkCore.InMemory >= 5.0.7",
-      "Microsoft.NET.Test.Sdk >= 16.5.0",
-      "NUnit >= 3.12.0",
-      "NUnit3TestAdapter >= 3.16.1",
-      "dotNetLab2 >= 1.0.0"
+      "Microsoft.NET.Test.Sdk >= 16.10.0",
+      "NUnit >= 3.13.2",
+      "NUnit3TestAdapter >= 4.0.0",
+      "Selenium.WebDriver >= 3.141.0",
+      "Selenium.WebDriver.ChromeDriver >= 92.0.4515.4300-beta"
     ]
   },
   "packageFolders": {
@@ -9869,7 +9736,15 @@
           },
           "NUnit3TestAdapter": {
             "target": "Package",
-            "version": "[3.16.1, )"
+            "version": "[4.0.0, )"
+          },
+          "Selenium.WebDriver": {
+            "target": "Package",
+            "version": "[3.141.0, )"
+          },
+          "Selenium.WebDriver.ChromeDriver": {
+            "target": "Package",
+            "version": "[92.0.4515.4300-beta, )"
           }
         },
         "imports": [
