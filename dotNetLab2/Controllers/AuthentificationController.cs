@@ -20,7 +20,7 @@ namespace dotNetLab2.Controllers
     [ApiController]
     public class AuthentificationController : ControllerBase
     {
-        private IAuthManagementService _authenticationService;
+        private readonly IAuthManagementService _authenticationService;
 
         public AuthentificationController(IAuthManagementService authenticationService)
         {

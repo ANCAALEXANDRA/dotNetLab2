@@ -45,15 +45,20 @@
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ErrorHandling\**" />
     <Content Remove="ViewModels\NewFolder1\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="ErrorHandling\**" />
     <None Remove="ViewModels\NewFolder1\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="ErrorHandling\**" />
     <Compile Remove="ViewModels\NewFolder1\**" />
+    <EmbeddedResource Remove="ErrorHandling\**" />
     <EmbeddedResource Remove="ViewModels\NewFolder1\**" />
+    <TypeScriptCompile Remove="ErrorHandling\**" />
     <TypeScriptCompile Remove="ViewModels\NewFolder1\**" />
   </ItemGroup>
 

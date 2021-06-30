@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>dotNetLab2</name>
+    </assembly>
+    <members>
+        <member name="M:dotNetLab2.Controllers.MoviesController.GetMovies">
+            <summary>
+            Return All Movies
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:dotNetLab2.Controllers.MoviesController.GetCommentsforMovie(System.Int32)">
+            <summary>
+            Get the Comments for Movies
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:dotNetLab2.Controllers.MoviesController.PostCommentForMovie(System.Int32,dotNetLab2.Models.Comment)">
+            <summary>
+            Add Comments for Movies
+            </summary>
+            <param name="id"></param>
+            <param name="comment"></param>
+            <returns></returns>
+        </member>
+        <member name="M:dotNetLab2.Controllers.MoviesController.GetMovie(System.Int64)">
+            <summary>
+            Get movies by id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:dotNetLab2.Controllers.MoviesController.PutMovie(System.Int64,dotNetLab2.Models.Movie)">
+            <summary>
+            Change movie info
+            </summary>
+            <param name="id"></param>
+            <param name="movie"></param>
+            <returns></returns>
+        </member>
+        <member name="M:dotNetLab2.Controllers.MoviesController.PostMovie(dotNetLab2.ViewModels.MovieViewModel)">
+            <summary>
+            Add Movie 
+            </summary>
+            <param name="movieRequest"></param>
+            <returns></returns>
+        </member>
+        <member name="M:dotNetLab2.Controllers.MoviesController.DeleteMovie(System.Int64)">
+            <summary>
+            Delete a movie by id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:dotNetLab2.Controllers.MoviesController.PutComment(System.Int32,dotNetLab2.ViewModels.CommentViewModel)">
+            <summary>
+            Updates a comment
+            </summary>
+            <param name="commentId">The comment ID</param>
+            <param name="comment">the comment</param>
+            <returns>If comment updates: NoContent, BadRequest if the ID is not valid, or NotFound if comment was not found</returns>
+        </member>
+        <member name="M:dotNetLab2.Controllers.MoviesController.DeleteComment(System.Int32)">
+            <summary>
+            Deletes a comment
+            </summary>
+            <param name="commentId">ID of the comment</param>
+            <returns>NoContent if the comment was deleted successfully, or NotFound</returns>
+        </member>
+    </members>
+</doc>

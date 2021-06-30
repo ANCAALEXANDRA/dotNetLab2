@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 using AutoMapper;
 using dotNetLab2.Data;
 using dotNetLab2.Models;
+using dotNetLab2.Services;
 using dotNetLab2.ViewModels.ForViewMovies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,111 +25,144 @@ namespace dotNetLab2.Controllers
         [Route("api/[controller]")]
         public class ForViewMoviesController : ControllerBase
         {
-            private readonly ApplicationDbContext _context;
-            private readonly ILogger<ForViewMoviesController> _logger;
-            private readonly IMapper _mapper;
+            //private readonly ApplicationDbContext _context;
+            //private readonly ILogger<ForViewMoviesController> _logger;
+            //private readonly IMapper _mapper;
             private readonly UserManager<ApplicationUser> _userManager;
+            private readonly ForViewMoviesService _forviewmoviesService;
 
+        //public ForViewMoviesController(ApplicationDbContext context, ILogger<ForViewMoviesController> logger, IMapper mapper, UserManager<ApplicationUser> userManager)
+        //    {
+        //        _context = context;
+        //        _logger = logger;
+        //        _mapper = mapper;
+        //        _userManager = userManager;
+        //    }
+        public ForViewMoviesController(ForViewMoviesService forviewmoviesService, UserManager<ApplicationUser> userManager)
+        {
+            _forviewmoviesService = forviewmoviesService;
+            _userManager = userManager;
+        }
 
-            public ForViewMoviesController(ApplicationDbContext context, ILogger<ForViewMoviesController> logger, IMapper mapper, UserManager<ApplicationUser> userManager)
-            {
-                _context = context;
-                _logger = logger;
-                _mapper = mapper;
-                _userManager = userManager;
-            }
-        
+        /// <summary>
+        /// Add a new reservation
+        /// </summary>
+        /// <response code="201">Add a new reservation</response>
+        /// <response code="400">Unable to add the reservation due to validation error</response>
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Authorize(AuthenticationSchemes = "Identity.Application, Bearer")]
         [HttpPost]
-            public async Task<ActionResult> PlaceForViewMovie(NewForViewRequest newForViewRequest)
+            public async Task<ActionResult> PlaceForViewMovie(NewForViewMoviesRequest newForViewRequest)
             {
-                var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-
-            List<Movie> viewedMovies = new List<Movie>();
-            newForViewRequest.ViewedMoviesIds.ForEach(pid =>
+            var user = new ApplicationUser();
+            try
             {
-                var movieWithId = _context.Movies.Find(pid);
-                if (movieWithId != null)
-                {
-                    viewedMovies.Add(movieWithId);
-                }
-            });
-
-            if (viewedMovies.Count == 0)
+                 user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            }
+            catch (ArgumentNullException)
             {
-                return BadRequest();
+                return Unauthorized("Please login!");
             }
 
-            var order = new ForViewMovie
-            {
-                ApplicationUser = user,
-                WatchDateTime = newForViewRequest.ViewDateTime.GetValueOrDefault(),
-                Movies = viewedMovies
-            };
 
-            _context.ForViewMovies.Add(order);
-            await _context.SaveChangesAsync();
-            return Ok();
+            var forviewmovieServiceResult = await _forviewmoviesService.PlaceForViewMovie(newForViewRequest, user);
+            if (forviewmovieServiceResult.ResponseError != null)
+            {
+                return BadRequest(forviewmovieServiceResult.ResponseError);
+            }
+
+            var forViewMovie = forviewmovieServiceResult.ResponseOk;
+
+            return CreatedAtAction("GetForVIewMovies", new { id = forViewMovie.Id }, "New viewed movie successfully added");
         }
 
+        /// <summary>
+        /// Get view movies
+        /// </summary>
+        /// <response code="200">Get reservations</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ForViewMoviesForUserResponse>>> GetAll()
+        public async Task<ActionResult<IEnumerable<ForViewMoviesForUserResponse>>> GetAllForViewMovies()
         {
-            var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-
-            if (user == null)
+            var user = new ApplicationUser();
+            try
             {
-                return NotFound();
+                user = await _userManager?.FindByNameAsync(User?.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            }
+            catch (ArgumentNullException)
+            {
+                return Unauthorized("Please login!");
             }
 
-            var result = _context.ForViewMovies.Where(f => f.ApplicationUser.Id == user.Id).Include(f => f.Movies).ToList();
-            return _mapper.Map<List<ForViewMovie>, List<ForViewMoviesForUserResponse>>(result);
+            var forviewmovieServiceResult = await _forviewmoviesService.GetAllForViewMovies(user);
+
+            return Ok(forviewmovieServiceResult.ResponseOk);
         }
 
+        /// <summary>
+        /// Amend a reservation
+        /// </summary>
+        /// <response code="204">Amend a reservation</response>
+        /// <response code="400">Unable to amend the reservation due to validation error</response>
+        /// <response code="404">Reservation not found</response>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPut]
         [Authorize(AuthenticationSchemes = "Identity.Application, Bearer")]
-        public async Task<ActionResult> EditForViewMovie(EditForViewMovieForUser editForViewMovieRequest)
+        public async Task<ActionResult> EditForViewMovie(int id, NewForViewMoviesRequest editForViewMovieRequest)
         {
-            var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-
-            ForViewMovie ForViewMovies = _context.ForViewMovies.Where(f => f.Id == editForViewMovieRequest.Id && f.ApplicationUser.Id == user.Id).Include(f => f.Movies).FirstOrDefault();
-
-            if (ForViewMovies == null)
+            var user = new ApplicationUser();
+            try
             {
-                return BadRequest("There is no ForViewMovie with this ID.");
+                user = await _userManager?.FindByNameAsync(User?.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            }
+            catch (ArgumentNullException)
+            {
+                return Unauthorized("Please login!");
             }
 
-            editForViewMovieRequest.MovieIDs.ForEach(mid =>
+            var forviewmovieServiceResult = await _forviewmoviesService.EditForViewMovie(id, editForViewMovieRequest, user);
+            if (forviewmovieServiceResult.ResponseError != null)
             {
-                var movie = _context.Movies.Find(mid);
-                if (movie != null && !ForViewMovies.Movies.Contains(movie))
-                {
-                    ForViewMovies.Movies.ToList().Add(movie);
-                }
-            });
+                return BadRequest(forviewmovieServiceResult.ResponseError);
+            }
 
-            _context.Entry(ForViewMovies).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return Ok();
-
+            return NoContent();
         }
 
+        /// <summary>
+        /// Delete a reservation by id
+        /// </summary>
+        /// <response code="204">Delete a reservation</response>
+        /// <response code="404">Reservation not found</response>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = "Identity.Application, Bearer")]
         public async Task<IActionResult> DeleteForViewMovies(int id)
         {
-            var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            try
+            {
+                var user = await _userManager?.FindByNameAsync(User?.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            }
+            catch (ArgumentNullException)
+            {
+                return Unauthorized("Please login!");
+            }
 
-            var ForViewMovies = _context.ForViewMovies.Where(f => f.ApplicationUser.Id == user.Id && f.Id == id).FirstOrDefault();
-
-            if (ForViewMovies == null)
+            if (!_forviewmoviesService.ForViewMovieExists(id))
             {
                 return NotFound();
             }
 
-            _context.ForViewMovies.Remove(ForViewMovies);
-            await _context.SaveChangesAsync();
+            var forviewmovieServiceResult = await _forviewmoviesService.DeleteForViewMovie(id);
+            if (forviewmovieServiceResult.ResponseError != null)
+            {
+                return BadRequest(forviewmovieServiceResult.ResponseError);
+            }
 
             return NoContent();
         }

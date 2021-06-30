@@ -112,6 +112,9 @@ namespace dotNetLab2
             services.AddTransient<IValidator<MovieViewModel>, MovieValidator>();
             services.AddTransient<IValidator<CommentViewModel>, CommentValidator>();
             services.AddTransient<IAuthManagementService, AuthManagementService>();
+            services.AddTransient<IMoviesService, MoviesService>();
+            services.AddTransient<IForViewMoviesService, ForViewMoviesService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
