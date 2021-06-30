@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotNetLab2", "dotNetLab2.csproj", "{956C3AC3-F2F2-4948-8983-C5DD80F7B9F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "..\Tests\Tests.csproj", "{E598B82D-DB28-4064-82D2-CEE8E549D176}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "..\Tests\Tests.csproj", "{E598B82D-DB28-4064-82D2-CEE8E549D176}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
