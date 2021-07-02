@@ -81,10 +81,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Migrations\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\movies\movies-list\movies-list.component.css" />
   </ItemGroup>
 

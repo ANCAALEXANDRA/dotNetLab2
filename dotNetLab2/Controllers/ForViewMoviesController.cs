@@ -25,19 +25,10 @@ namespace dotNetLab2.Controllers
         [Route("api/[controller]")]
         public class ForViewMoviesController : ControllerBase
         {
-            //private readonly ApplicationDbContext _context;
-            //private readonly ILogger<ForViewMoviesController> _logger;
-            //private readonly IMapper _mapper;
+            
             private readonly UserManager<ApplicationUser> _userManager;
             private readonly ForViewMoviesService _forviewmoviesService;
 
-        //public ForViewMoviesController(ApplicationDbContext context, ILogger<ForViewMoviesController> logger, IMapper mapper, UserManager<ApplicationUser> userManager)
-        //    {
-        //        _context = context;
-        //        _logger = logger;
-        //        _mapper = mapper;
-        //        _userManager = userManager;
-        //    }
         public ForViewMoviesController(ForViewMoviesService forviewmoviesService, UserManager<ApplicationUser> userManager)
         {
             _forviewmoviesService = forviewmoviesService;
