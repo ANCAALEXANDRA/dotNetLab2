@@ -38,12 +38,13 @@ namespace Tests
             System.Threading.Thread.Sleep(1000);
 
             var password = _driver.FindElement(By.XPath("/html/body/app-root/ion-app/ion-router-outlet/app-login/ion-content/div/form/ion-item[2]/ion-input/input"));
-            System.Threading.Thread.Sleep(2000);
+            System.Threading.Thread.Sleep(4000);
             password.SendKeys("ancaANCA12!");
 
             var loginBtn = _driver.FindElement(By.XPath("/html/body/app-root/ion-app/ion-router-outlet/app-login/ion-content/div/form/ion-button"));
+            System.Threading.Thread.Sleep(800); 
             loginBtn.Click();
-            System.Threading.Thread.Sleep(2000);
+            System.Threading.Thread.Sleep(7000);
 
             _driver.FindElement(By.XPath("//ion-list"));
             System.Threading.Thread.Sleep(4000);

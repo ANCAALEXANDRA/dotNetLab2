@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using AutoMapper;
+
 
 namespace dotNetLab2.Controllers
 {
@@ -41,24 +41,24 @@ namespace dotNetLab2.Controllers
             return movies;
         }
 
-        //// GET: api/Movies/filter
-        //[HttpGet("startDate & endDate")]
-        //[Route("filter")]
-        ////public async Task<ActionResult<IEnumerable<Movie>>> GetMovies()
-        //public async Task<ActionResult<IEnumerable<Movie>>> GetMoviesFilterDate(DateTime startDate, DateTime endDate)
-        //{
+        /// <summary>
+        /// Returns a list of movies filtered by the date they're added to DB, and ordered desc. by their release year. 
+        /// </summary>
+        /// <param name="fromDate">The earliest value of movie's DateAdded may have</param>
+        /// <param name="toDate">The latest value of movie's DateAdded may have</param>
+        /// <returns>The list of the filtered and ordered movies</returns>
+        [HttpGet]
+        [Route("filter2")]
+        public async Task<ActionResult<IEnumerable<MovieViewModel>>> FilterByAddedDate(DateTime? fromDate, DateTime? toDate)
+        {
 
-        //    if (startDate == null || endDate == null)
-        //    {
-        //        return _context.Movies.ToList();
-        //    }
-        //    var movie = _context.Movies.Where(m => m.DateAdded >= startDate && m.DateAdded <= endDate).ToList();
+            var filteredMovies = await _context.Movies
+                .Where(m => m.DateAdded >= fromDate && m.DateAdded <= toDate)
+                .OrderByDescending(m => m.YearOfRelease)
+                .Select(m => _mapper.Map<MovieViewModel>(m)).ToListAsync();
 
-
-        //    //IQueryable<Movie> result = _context.Movies;
-        //    return movie.OrderByDescending(m => m.YearOfRelease).ToList();
-
-        //}
+            return Ok(filteredMovies);
+        }
 
         /// <summary>
         /// Get the Comments for Movies
@@ -103,18 +103,17 @@ namespace dotNetLab2.Controllers
         /// <param name="id"></param>
         /// <param name="comment"></param>
         /// <returns></returns>
-        [Authorize(AuthenticationSchemes = "Identity.Application, Bearer")]
+        //[Authorize(AuthenticationSchemes = "Identity.Application, Bearer")]
         [HttpPost("{id}/Comments")]
-        public IActionResult PostCommentForMovie(int id, Comment comment)
+        public IActionResult PostCommentForMovie(int id, CommentViewModel comment)
         {
-            var movie = _context.Movies.Where(m => m.Id == id).Include(m => m.Comments).FirstOrDefault();
-            if (movie == null)
+            var movies = _context.Movies.Where(m => m.Id == id).Include(m => m.Comments).FirstOrDefault();
+            if (movies == null)
             {
                 return NotFound();
             }
-
-            movie.Comments.Add(comment);
-            _context.Entry(movie).State = EntityState.Modified;
+            movies.Comments.Add(_mapper.Map<Comment>(comment));
+            _context.Entry(movies).State = EntityState.Modified;
             _context.SaveChanges();
 
             return Ok();
@@ -148,7 +147,7 @@ namespace dotNetLab2.Controllers
         /// <returns></returns>
         // PUT: api/Movies/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [Authorize(AuthenticationSchemes = "Identity.Application, Bearer")]
+        //[Authorize(AuthenticationSchemes = "Identity.Application, Bearer")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutMovie(long id, Movie movie)
         {
@@ -157,7 +156,7 @@ namespace dotNetLab2.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(movie).State = EntityState.Modified;
+            _context.Entry(_mapper.Map<Movie>(movie)).State = EntityState.Modified;
 
             try
             {
@@ -184,12 +183,11 @@ namespace dotNetLab2.Controllers
         /// <returns></returns>
         // POST: api/Movies
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [Authorize(AuthenticationSchemes = "Identity.Application, Bearer")]
+        //[Authorize(AuthenticationSchemes = "Identity.Application, Bearer")]
         [HttpPost]
-        public async Task<ActionResult<MovieViewModel>> PostMovie(MovieViewModel movieRequest)
+        public async Task<ActionResult<MovieViewModel>> PostMovie(MovieViewModel movie)
         {
-            Movie movie = _mapper.Map<Movie>(movieRequest);
-            _context.Movies.Add(movie);
+            _context.Movies.Add(_mapper.Map<Movie>(movie));
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetMovie", new { id = movie.Id }, movie);
@@ -200,7 +198,7 @@ namespace dotNetLab2.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         // DELETE: api/Movies/5
-        [Authorize(AuthenticationSchemes = "Identity.Application, Bearer")]
+        //[Authorize(AuthenticationSchemes = "Identity.Application, Bearer")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMovie(long id)
         {
@@ -228,7 +226,7 @@ namespace dotNetLab2.Controllers
         /// <param name="commentId">The comment ID</param>
         /// <param name="comment">the comment</param>
         /// <returns>If comment updates: NoContent, BadRequest if the ID is not valid, or NotFound if comment was not found</returns>
-        [Authorize(AuthenticationSchemes = "Identity.Application, Bearer")]
+        //[Authorize(AuthenticationSchemes = "Identity.Application, Bearer")]
         [HttpPut("{id}/Comments/{commentId}")]
         public async Task<IActionResult> PutComment(int commentId, CommentViewModel comment)
         {
@@ -264,7 +262,7 @@ namespace dotNetLab2.Controllers
         /// </summary>
         /// <param name="commentId">ID of the comment</param>
         /// <returns>NoContent if the comment was deleted successfully, or NotFound</returns>
-        [Authorize(AuthenticationSchemes = "Identity.Application, Bearer")]
+        //[Authorize(AuthenticationSchemes = "Identity.Application, Bearer")]
         [HttpDelete("{id}/Comments/{commentId}")]
         public async Task<IActionResult> DeleteComment(int commentId)
         {

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Qz5SgIsJrzjUB43GLOqeMgMcIDhZxWZIVMd3lOb9BhtqeEVt5fdTYRHT8P9euigw/kDlZvKJBSNuwalyRecOoQ==",
+  "dgSpecHash": "p+kN8fHjrBQk/slOgHwD/+vKvRDMPhMUa+qwyDmyi+gc3cRuagbkTD+adebnzj2gl1EmLJoQbZtBxR4844uSDA==",
   "success": true,
   "projectFilePath": "C:\\project\\DotNET\\dotNetLab2\\Tests\\Tests.csproj",
   "expectedPackageFiles": [
@@ -17,7 +17,7 @@
     "C:\\Users\\Anca\\.nuget\\packages\\nunit\\3.13.2\\nunit.3.13.2.nupkg.sha512",
     "C:\\Users\\Anca\\.nuget\\packages\\nunit3testadapter\\4.0.0\\nunit3testadapter.4.0.0.nupkg.sha512",
     "C:\\Users\\Anca\\.nuget\\packages\\selenium.webdriver\\3.141.0\\selenium.webdriver.3.141.0.nupkg.sha512",
-    "C:\\Users\\Anca\\.nuget\\packages\\selenium.webdriver.chromedriver\\91.0.4472.10100\\selenium.webdriver.chromedriver.91.0.4472.10100.nupkg.sha512",
+    "C:\\Users\\Anca\\.nuget\\packages\\selenium.webdriver.chromedriver\\92.0.4515.4300-beta\\selenium.webdriver.chromedriver.92.0.4515.4300-beta.nupkg.sha512",
     "C:\\Users\\Anca\\.nuget\\packages\\system.collections\\4.3.0\\system.collections.4.3.0.nupkg.sha512",
     "C:\\Users\\Anca\\.nuget\\packages\\system.collections.nongeneric\\4.3.0\\system.collections.nongeneric.4.3.0.nupkg.sha512",
     "C:\\Users\\Anca\\.nuget\\packages\\system.collections.specialized\\4.3.0\\system.collections.specialized.4.3.0.nupkg.sha512",

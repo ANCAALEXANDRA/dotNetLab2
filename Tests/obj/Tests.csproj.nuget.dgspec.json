@@ -58,7 +58,7 @@
             },
             "Selenium.WebDriver.ChromeDriver": {
               "target": "Package",
-              "version": "[91.0.4472.10100, )"
+              "version": "[92.0.4515.4300-beta, )"
             }
           },
           "imports": [
