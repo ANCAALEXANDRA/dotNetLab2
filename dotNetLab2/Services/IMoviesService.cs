@@ -11,7 +11,7 @@ namespace dotNetLab2.Services
 {
     public interface IMoviesService
     {
-        Task<ServiceResponse<PaginatedResultSet<Movie>, IEnumerable<EntityManagementError>>> GetMovies(int? page = 1, int? perPage = 20);
+        Task<ServiceResponse<PaginatedResultSet<MovieViewModel>, IEnumerable<EntityManagementError>>> GetMovies(int? page = 1, int? perPage = 20);
 
         Task<ServiceResponse<MovieViewModel, string>> GetMovie(int id);
 

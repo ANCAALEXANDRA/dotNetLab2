@@ -32,19 +32,31 @@ namespace dotNetLab2.Services
         }
 
 
-        public async Task<ServiceResponse<PaginatedResultSet<Movie>, IEnumerable<EntityManagementError>>> GetMovies(int? page = 1, int? perPage = 20)
+        public async Task<ServiceResponse<PaginatedResultSet<MovieViewModel>, IEnumerable<EntityManagementError>>> GetMovies(int? page = 1, int? perPage = 20)
         {
             var movies = await _context.Movies
+                .OrderBy(m => m.Id)
                 .Skip((page.Value - 1) * perPage.Value)
                 .Take(perPage.Value)
+                .Select(m => _mapper.Map<MovieViewModel>(m))
                 .ToListAsync();
 
-            var count = await getMoviesCount();
+            if (page == null || page < 1)
+            {
+                page = 1;
+            }
+            if (perPage == null || perPage > 100)
+            {
+                perPage = 20;
+            }
 
-            var resultSet = new PaginatedResultSet<Movie>(movies, page.Value, count, perPage.Value);
+            int count = await _context.Movies.CountAsync();
+            var resultSet = new PaginatedResultSet<MovieViewModel>(movies, page.Value, count, perPage.Value);
 
-            var serviceResponse = new ServiceResponse<PaginatedResultSet<Movie>, IEnumerable<EntityManagementError>>();
-            serviceResponse.ResponseOk = resultSet;
+            var serviceResponse = new ServiceResponse<PaginatedResultSet<MovieViewModel>, IEnumerable<EntityManagementError>>
+            {
+                ResponseOk = resultSet
+            };
             return serviceResponse;
         }
 
