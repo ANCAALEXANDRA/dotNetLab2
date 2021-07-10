@@ -1,6 +1,7 @@
 ﻿using dotNetLab2.Models;
 using dotNetLab2.Services;
 using dotNetLab2.ViewModels;
+using dotNetLab2.ViewModels.Pagination;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -10,13 +11,13 @@ namespace dotNetLab2.Services
 {
     public interface IMoviesService
     {
-        Task<ServiceResponse<IEnumerable<MovieViewModel>, IEnumerable<EntityManagementError>>> GetMovies();
+        Task<ServiceResponse<PaginatedResultSet<Movie>, IEnumerable<EntityManagementError>>> GetMovies(int? page = 1, int? perPage = 20);
 
         Task<ServiceResponse<MovieViewModel, string>> GetMovie(int id);
 
         Task<ServiceResponse<IEnumerable<MovieWithCommentsViewModel>, IEnumerable<EntityManagementError>>> GetCommentsForMovie(int id);
 
-        Task<ServiceResponse<IEnumerable<MovieViewModel>, IEnumerable<EntityManagementError>>> FilterMoviesByDateAdded(DateTime? fromDate, DateTime? toDate);
+        Task<ServiceResponse<PaginatedResultSet<Movie>, IEnumerable<EntityManagementError>>> FilterMoviesByDateAdded(string fromDate, string toDate, int? page = 1, int? perPage = 10);
 
         Task<ServiceResponse<Movie, IEnumerable<EntityManagementError>>> PostMovie(MovieViewModel movieRequest);
 

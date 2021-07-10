@@ -76,9 +76,9 @@ namespace TestProject1
             checkSeen.Click();
             System.Threading.Thread.Sleep(2000);
 
-            //var addMoviebtn2 = _driver.FindElement(By.XPath("/html/body/app-root/ion-app/ion-router-outlet/app-add-movie/ion-footer/ion-button[1]"));
-            //addMoviebtn2.Click();
-            //System.Threading.Thread.Sleep(4000);
+            var addMoviebtn2 = _driver.FindElement(By.XPath("/html/body/app-root/ion-app/ion-router-outlet/app-add-movie/ion-footer/ion-button[1]"));
+            addMoviebtn2.Click();
+            System.Threading.Thread.Sleep(4000);
 
 
 

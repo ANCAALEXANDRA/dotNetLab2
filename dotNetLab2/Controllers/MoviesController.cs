@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using dotNetLab2.Services;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using dotNetLab2.ViewModels.Pagination;
 
 namespace dotNetLab2.Controllers
 {
@@ -38,11 +39,9 @@ namespace dotNetLab2.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         // GET: api/Movies
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MovieViewModel>>> GetMovies()
+        public async Task<ActionResult<IEnumerable<MovieViewModel>>> GetMovies(int? page = 1, int? perPage = 20)
         {
-            //var movies = await _context.Movies.Select(m => _mapper.Map<MovieViewModel>(m)).ToListAsync();
-            //return movies;
-            var moviesServiceResult = await _moviesService.GetMovies();
+            var moviesServiceResult = await _moviesService.GetMovies(page, perPage);
 
             return Ok(moviesServiceResult.ResponseOk);
         }
@@ -56,15 +55,10 @@ namespace dotNetLab2.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet]
         [Route("filter")]
-        public async Task<ActionResult<IEnumerable<MovieViewModel>>> FilterMoviesByDateAdded(DateTime? fromDate, DateTime? toDate)
+        public async Task<ActionResult<PaginatedResultSet<Movie>>> FilterMoviesByDateAdded(string fromDate, string toDate, int? page = 1, int? perPage = 20)
         {
-            var moviesServiceResult = await _moviesService.FilterMoviesByDateAdded(fromDate, toDate);
-            if (moviesServiceResult.ResponseError != null)
-            {
-                return BadRequest(moviesServiceResult.ResponseError);
-            }
-
-            return Ok(moviesServiceResult.ResponseOk);
+            var result = await _moviesService.FilterMoviesByDateAdded(fromDate, toDate, page, perPage);
+            return result.ResponseOk;
         }
 
 

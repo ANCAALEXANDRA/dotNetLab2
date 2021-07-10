@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
 using AutoMapper;
+using dotNetLab2.ViewModels.Pagination;
 
 namespace dotNetLab2.Services
 {
@@ -31,13 +32,25 @@ namespace dotNetLab2.Services
         }
 
 
-        public async Task<ServiceResponse<IEnumerable<MovieViewModel>, IEnumerable<EntityManagementError>>> GetMovies()
+        public async Task<ServiceResponse<PaginatedResultSet<Movie>, IEnumerable<EntityManagementError>>> GetMovies(int? page = 1, int? perPage = 20)
         {
-            var movies = await _context.Movies.Select(m => _mapper.Map<MovieViewModel>(m)).ToListAsync();
+            var movies = await _context.Movies
+                .Skip((page.Value - 1) * perPage.Value)
+                .Take(perPage.Value)
+                .ToListAsync();
 
-            var serviceResponse = new ServiceResponse<IEnumerable<MovieViewModel>, IEnumerable<EntityManagementError>>();
-            serviceResponse.ResponseOk = movies;
+            var count = await getMoviesCount();
+
+            var resultSet = new PaginatedResultSet<Movie>(movies, page.Value, count, perPage.Value);
+
+            var serviceResponse = new ServiceResponse<PaginatedResultSet<Movie>, IEnumerable<EntityManagementError>>();
+            serviceResponse.ResponseOk = resultSet;
             return serviceResponse;
+        }
+
+        public async Task<int> getMoviesCount()
+        {
+            return await _context.Movies.CountAsync();
         }
 
         public async Task<ServiceResponse<MovieViewModel, string>> GetMovie(int id)
@@ -71,7 +84,27 @@ namespace dotNetLab2.Services
 
             return serviceResponse;
         }
+        public async Task<ServiceResponse<PaginatedResultSet<Movie>, IEnumerable<EntityManagementError>>> FilterMoviesByDateAdded(string fromDate, string toDate, int? page = 1, int? perPage = 10)
+        {
+            var startDateDt = DateTime.Parse(fromDate);
+            var endDateDt = DateTime.Parse(toDate);
 
+            var movies = await _context.Movies
+                .Where(m => m.DateAdded >= startDateDt && m.DateAdded <= endDateDt)
+                .OrderByDescending(m => m.YearOfRelease)
+                .Skip((page.Value - 1) * perPage.Value)
+                .Take(perPage.Value)
+                .ToListAsync();
+
+            var count = await getMoviesCount();
+
+            var resultSet = new PaginatedResultSet<Movie>(movies, page.Value, count, perPage.Value);
+
+            var serviceResponse = new ServiceResponse<PaginatedResultSet<Movie>, IEnumerable<EntityManagementError>>();
+            serviceResponse.ResponseOk = resultSet;
+            return serviceResponse;
+        }
+      
         public async Task<ServiceResponse<IEnumerable<MovieViewModel>, IEnumerable<EntityManagementError>>> FilterMoviesByDateAdded(DateTime? fromDate, DateTime? toDate)
         {
             var serviceResponse = new ServiceResponse<IEnumerable<MovieViewModel>, IEnumerable<EntityManagementError>>();
@@ -82,6 +115,7 @@ namespace dotNetLab2.Services
                 errors.Add(new EntityManagementError { Code = "", Description = "Both dates are required" });
                 serviceResponse.ResponseError = errors;
                 return serviceResponse;
+
             }
 
             if (fromDate >= toDate)
@@ -244,6 +278,7 @@ namespace dotNetLab2.Services
             return _context.Comments.Any(e => e.Id == id);
         }
 
-       
+        
+        
     }
 }
