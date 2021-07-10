@@ -12,23 +12,23 @@ namespace dotNetLab2.Services
     {
         Task<ServiceResponse<IEnumerable<MovieViewModel>, IEnumerable<EntityManagementError>>> GetMovies();
 
-        Task<ServiceResponse<MovieViewModel, string>> GetMovie(long id);
+        Task<ServiceResponse<MovieViewModel, string>> GetMovie(int id);
 
-        Task<ServiceResponse<IEnumerable<MovieWithCommentsViewModel>, IEnumerable<EntityManagementError>>> GetCommentsForMovie(long id);
+        Task<ServiceResponse<IEnumerable<MovieWithCommentsViewModel>, IEnumerable<EntityManagementError>>> GetCommentsForMovie(int id);
 
         Task<ServiceResponse<IEnumerable<MovieViewModel>, IEnumerable<EntityManagementError>>> FilterMoviesByDateAdded(DateTime? fromDate, DateTime? toDate);
 
         Task<ServiceResponse<Movie, IEnumerable<EntityManagementError>>> PostMovie(MovieViewModel movieRequest);
 
-        Task<ServiceResponse<Comment, IEnumerable<EntityManagementError>>> PostCommentForMovie(long movieId, CommentViewModel commentRequest);
+        Task<ServiceResponse<Comment, IEnumerable<EntityManagementError>>> PostCommentForMovie(int movieId, CommentViewModel commentRequest);
 
-        Task<ServiceResponse<Movie, IEnumerable<EntityManagementError>>> PutMovie(long id, MovieViewModel movieRequest);
-        Task<ServiceResponse<Comment, IEnumerable<EntityManagementError>>> PutComment(long commentId, CommentViewModel commentRequest);
+        Task<ServiceResponse<Movie, IEnumerable<EntityManagementError>>> PutMovie(int id, MovieViewModel movieRequest);
+        Task<ServiceResponse<Comment, IEnumerable<EntityManagementError>>> PutComment(int commentId, CommentViewModel commentRequest);
 
-        Task<ServiceResponse<bool, IEnumerable<EntityManagementError>>> DeleteMovie(long id);
-        Task<ServiceResponse<bool, IEnumerable<EntityManagementError>>> DeleteComment(long id);
+        Task<ServiceResponse<bool, IEnumerable<EntityManagementError>>> DeleteMovie(int id);
+        Task<ServiceResponse<bool, IEnumerable<EntityManagementError>>> DeleteComment(int id);
 
-        bool MovieExists(long id);
-        bool CommentExists(long id);
+        bool MovieExists(int id);
+        bool CommentExists(int id);
     }
 }

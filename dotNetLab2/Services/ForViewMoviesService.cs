@@ -122,8 +122,8 @@ namespace dotNetLab2.Services
 
             try
             {
-                var ForViewMovie = await _context.ForViewMovies.FindAsync(id);
-                _context.ForViewMovies.Remove(ForViewMovie);
+                var forViewMovie = await _context.ForViewMovies.FindAsync(id);
+                _context.ForViewMovies.Remove(forViewMovie);
                 await _context.SaveChangesAsync();
                 serviceResponse.ResponseOk = true;
             }
@@ -143,43 +143,43 @@ namespace dotNetLab2.Services
         }
 
        
-        public async Task<ServiceResponse<ForViewMovie, IEnumerable<EntityManagementError>>> UpdateForViewMovie(int id, NewForViewMoviesRequest updateForViewMovieRequest, ApplicationUser user)
-        {
-            var serviceResponse = new ServiceResponse<ForViewMovie, IEnumerable<EntityManagementError>>();
+        //public async Task<ServiceResponse<ForViewMovie, IEnumerable<EntityManagementError>>> UpdateForViewMovie(int id, NewForViewMoviesRequest updateForViewMovieRequest, ApplicationUser user)
+        //{
+        //    var serviceResponse = new ServiceResponse<ForViewMovie, IEnumerable<EntityManagementError>>();
 
-            var viewedMovies = new List<Movie>();
-            updateForViewMovieRequest.ViewedMoviesIds.ForEach(rid =>
-            {
-                var movieWithId = _context.Movies.Find(rid);
-                if (movieWithId != null)
-                {
-                    viewedMovies.Add(movieWithId);
-                }
-            });
+        //    var viewedMovies = new List<Movie>();
+        //    updateForViewMovieRequest.ViewedMoviesIds.ForEach(rid =>
+        //    {
+        //        var movieWithId = _context.Movies.Find(rid);
+        //        if (movieWithId != null)
+        //        {
+        //            viewedMovies.Add(movieWithId);
+        //        }
+        //    });
 
-            var ForViewMovie = new ForViewMovie
-            {
-                Id = id,
-                ApplicationUser = user,
-                WatchDateTime = updateForViewMovieRequest.ViewDateTime.GetValueOrDefault(),
-                Movies = viewedMovies
-            };
+        //    var ForViewMovie = new ForViewMovie
+        //    {
+        //        Id = id,
+        //        ApplicationUser = user,
+        //        WatchDateTime = updateForViewMovieRequest.ViewDateTime.GetValueOrDefault(),
+        //        Movies = viewedMovies
+        //    };
 
-            _context.Entry(ForViewMovie).State = EntityState.Modified;
+        //    _context.Entry(ForViewMovie).State = EntityState.Modified;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-                serviceResponse.ResponseOk = ForViewMovie;
-            }
-            catch (Exception e)
-            {
-                var errors = new List<EntityManagementError>();
-                errors.Add(new EntityManagementError { Code = e.GetType().ToString(), Description = e.Message });
-            }
+        //    try
+        //    {
+        //        await _context.SaveChangesAsync();
+        //        serviceResponse.ResponseOk = ForViewMovie;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        var errors = new List<EntityManagementError>();
+        //        errors.Add(new EntityManagementError { Code = e.GetType().ToString(), Description = e.Message });
+        //    }
 
-            return serviceResponse;
-        }
+        //    return serviceResponse;
+        //}
 
     }
 }

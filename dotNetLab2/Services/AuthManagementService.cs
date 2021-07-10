@@ -20,12 +20,14 @@ namespace dotNetLab2.Services
     public class AuthManagementService : IAuthManagementService
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ApplicationDbContext _context;
         private readonly IConfiguration _configuration;
 
-        public AuthManagementService(UserManager<ApplicationUser> userManager,  ApplicationDbContext context, IConfiguration configuration)
+        public AuthManagementService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ApplicationDbContext context, IConfiguration configuration)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
             _context = context;
             _configuration = configuration;
         }
@@ -38,12 +40,15 @@ namespace dotNetLab2.Services
                 UserName = registerRequest.Email,
                 SecurityStamp = Guid.NewGuid().ToString()
             };
+
             var serviceResponse = new ServiceResponse<RegisterResponse, IEnumerable<IdentityError>>();
             var result = await _userManager.CreateAsync(user, registerRequest.Password);
             if (result.Succeeded)
             {
                 serviceResponse.ResponseOk = new RegisterResponse { ConfirmationToken = user.SecurityStamp };
+                return serviceResponse;
             }
+
             serviceResponse.ResponseError = result.Errors;
             return serviceResponse;
         }
@@ -66,33 +71,28 @@ namespace dotNetLab2.Services
         public async Task<ServiceResponse<LoginResponse, string>> LoginUser(LoginRequest loginRequest)
         {
             var serviceResponse = new ServiceResponse<LoginResponse, string>();
-
             var user = await _userManager.FindByEmailAsync(loginRequest.Email);
             if (user != null && await _userManager.CheckPasswordAsync(user, loginRequest.Password))
             {
-                {
-                    var claims = new[] {
+                var claims = new[] {
                     new Claim(JwtRegisteredClaimNames.Sub, user.UserName)
-                    //new Claim(JwtRegisteredClaimNames.)
                 };
-                    var signinKey = new SymmetricSecurityKey(
-                      Encoding.UTF8.GetBytes(_configuration["Jwt:SigningKey"]));
+                var signinKey = new SymmetricSecurityKey(
+                  Encoding.UTF8.GetBytes(_configuration["Jwt:SigningKey"]));
 
-                    int expiryInMinutes = Convert.ToInt32(_configuration["Jwt:ExpiryInMinutes"]);
+                int expiryInMinutes = Convert.ToInt32(_configuration["Jwt:ExpiryInMinutes"]);
 
-                    var token = new JwtSecurityToken(
-                      issuer: _configuration["Jwt:Site"],
-                      audience: _configuration["Jwt:Site"],
-                      expires: DateTime.UtcNow.AddMinutes(expiryInMinutes),
-                      signingCredentials: new SigningCredentials(signinKey, SecurityAlgorithms.HmacSha256),
-                      claims: claims
-                    );
+                var token = new JwtSecurityToken(
+                  issuer: _configuration["Jwt:Site"],
+                  audience: _configuration["Jwt:Site"],
+                  expires: DateTime.UtcNow.AddMinutes(expiryInMinutes),
+                  signingCredentials: new SigningCredentials(signinKey, SecurityAlgorithms.HmacSha256),
+                  claims: claims
+                );
 
-                    serviceResponse.ResponseOk = new LoginResponse { Token = new JwtSecurityTokenHandler().WriteToken(token), Expiration = token.ValidTo };
-
-                }
-
+                serviceResponse.ResponseOk = new LoginResponse { Token = new JwtSecurityTokenHandler().WriteToken(token), Expiration = token.ValidTo };
             }
+
             return serviceResponse;
         }
 

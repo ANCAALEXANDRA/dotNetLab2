@@ -38,7 +38,7 @@ namespace dotNetLab2
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSwaggerGen();
+           
             services.AddAutoMapper(typeof(MappingProfile));
             services.AddMvc();
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -69,6 +69,8 @@ namespace dotNetLab2
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:SigningKey"]))
                     };
                 });
+            services.AddControllers().AddNewtonsoftJson(options =>
+            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
 
             services.AddControllersWithViews()
@@ -152,23 +154,23 @@ namespace dotNetLab2
             {
                 app.UseSpaStaticFiles();
             }
-            app.UseSwagger(c =>
-            {
-                c.SerializeAsV2 = true;
-            });
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Movie Playlist");
-                c.RoutePrefix = string.Empty;
-            });
+            //app.UseSwagger(c =>
+            //{
+            //    c.SerializeAsV2 = true;
+            //});
+            //app.UseSwaggerUI(c =>
+            //{
+            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Movie Playlist");
+            //    c.RoutePrefix = string.Empty;
+            //});
 
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseIdentityServer();
             app.UseAuthorization();
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            //app.UseHttpsRedirection();
+            //app.UseStaticFiles();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

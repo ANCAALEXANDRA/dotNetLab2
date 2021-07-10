@@ -24,14 +24,14 @@ namespace dotNetLab2.Data
         {
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Movie>()
-                .HasIndex(p => p.Title)
-                .IsUnique()
-                .HasFilter(null);
-        }
+        //    modelBuilder.Entity<Movie>()
+        //        .HasIndex(p => p.Title)
+        //        .IsUnique()
+        //        .HasFilter(null);
+        //}
     }
 }

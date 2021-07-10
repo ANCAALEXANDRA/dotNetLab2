@@ -1,12 +1,13 @@
 export class Movie {
-  id: number;
-  title: string;
-  description: string;
-  gender: string;
-  durationInMinutes: number;
-  yearOfRelease: string;
-  director: string;
-  dateAdded: Date;
-  rating: number;
-  watched: boolean;
+  Id: number;
+  Title: string;
+  Description: string;
+  Gender: string;
+  DurationInMinutes: number;
+  YearOfRelease:string;
+  Director: string;
+  DateAdded: Date;
+  Rating: number;
+  Watched: boolean;
+
 }

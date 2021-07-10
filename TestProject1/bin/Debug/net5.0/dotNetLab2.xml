@@ -45,7 +45,7 @@
             <response code="200">Filter movies by date added</response>
             <response code="400">Unable to get the movie due to validation error</response>
         </member>
-        <member name="M:dotNetLab2.Controllers.MoviesController.GetMovie(System.Int64)">
+        <member name="M:dotNetLab2.Controllers.MoviesController.GetMovie(System.Int32)">
             <summary>
             Get a movie by id
             </summary>
@@ -58,14 +58,14 @@
             </summary>
             <response code="200">Get movie with comments</response>
         </member>
-        <member name="M:dotNetLab2.Controllers.MoviesController.PostCommentForMovie(System.Int64,dotNetLab2.ViewModels.CommentViewModel)">
+        <member name="M:dotNetLab2.Controllers.MoviesController.PostCommentForMovie(System.Int32,dotNetLab2.ViewModels.CommentViewModel)">
             <summary>
             Add comment for id movie
             </summary>
             <response code="201">Add a new comment to movie</response>
             <response code="404">Movie not found</response>
         </member>
-        <member name="M:dotNetLab2.Controllers.MoviesController.PutMovie(System.Int64,dotNetLab2.ViewModels.MovieViewModel)">
+        <member name="M:dotNetLab2.Controllers.MoviesController.PutMovie(System.Int32,dotNetLab2.ViewModels.MovieViewModel)">
             <summary>
             Change movie info
             </summary>
@@ -77,10 +77,10 @@
             <summary>
             Add Movie 
             </summary>
-            <param name="movieRequest"></param>
-            <returns></returns>
+            <response code="201">Adds a new movie</response>
+            <response code="400">Unable to add the movie</response>
         </member>
-        <member name="M:dotNetLab2.Controllers.MoviesController.DeleteMovie(System.Int64)">
+        <member name="M:dotNetLab2.Controllers.MoviesController.DeleteMovie(System.Int32)">
             <summary>
             Delete a movie by id
             </summary>
@@ -95,7 +95,7 @@
             <param name="comment">the comment</param>
             <returns>If comment updates: NoContent, BadRequest if the ID is not valid, or NotFound if comment was not found</returns>
         </member>
-        <member name="M:dotNetLab2.Controllers.MoviesController.DeleteComment(System.Int64)">
+        <member name="M:dotNetLab2.Controllers.MoviesController.DeleteComment(System.Int32)">
             <summary>
             Deletes a comment
             </summary>

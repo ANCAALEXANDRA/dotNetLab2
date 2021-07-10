@@ -25,20 +25,11 @@ namespace dotNetLab2.Controllers
         [Route("api/[controller]")]
         public class ForViewMoviesController : ControllerBase
         {
-            //private readonly ApplicationDbContext _context;
-            //private readonly ILogger<ForViewMoviesController> _logger;
-            //private readonly IMapper _mapper;
+            
             private readonly UserManager<ApplicationUser> _userManager;
-            private readonly ForViewMoviesService _forviewmoviesService;
+            private readonly IForViewMoviesService _forviewmoviesService;
 
-        //public ForViewMoviesController(ApplicationDbContext context, ILogger<ForViewMoviesController> logger, IMapper mapper, UserManager<ApplicationUser> userManager)
-        //    {
-        //        _context = context;
-        //        _logger = logger;
-        //        _mapper = mapper;
-        //        _userManager = userManager;
-        //    }
-        public ForViewMoviesController(ForViewMoviesService forviewmoviesService, UserManager<ApplicationUser> userManager)
+        public ForViewMoviesController(IForViewMoviesService forviewmoviesService, UserManager<ApplicationUser> userManager)
         {
             _forviewmoviesService = forviewmoviesService;
             _userManager = userManager;
@@ -59,7 +50,7 @@ namespace dotNetLab2.Controllers
             var user = new ApplicationUser();
             try
             {
-                 user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                 user = await _userManager?.FindByNameAsync(User?.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             }
             catch (ArgumentNullException)
             {
@@ -84,7 +75,7 @@ namespace dotNetLab2.Controllers
         /// <response code="200">Get reservations</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ForViewMoviesForUserResponse>>> GetAllForViewMovies()
+        public async Task<ActionResult> GetAllForViewMovies()
         {
             var user = new ApplicationUser();
             try
@@ -110,7 +101,7 @@ namespace dotNetLab2.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpPut]
+        [HttpPut("{id}")]
         [Authorize(AuthenticationSchemes = "Identity.Application, Bearer")]
         public async Task<ActionResult> EditForViewMovie(int id, NewForViewMoviesRequest editForViewMovieRequest)
         {

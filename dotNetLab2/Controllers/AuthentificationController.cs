@@ -1,35 +1,24 @@
-﻿using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using dotNetLab2.Data;
-using dotNetLab2.Models;
-using dotNetLab2.ViewModels.Authentification;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Mvc;
 using dotNetLab2.Services;
+using dotNetLab2.ViewModels;
+using dotNetLab2.ViewModels.Authentification;
+using System.Threading.Tasks;
 
 namespace dotNetLab2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthentificationController : ControllerBase
+    public class AuthenticationController : ControllerBase
     {
-        private readonly IAuthManagementService _authenticationService;
+        private IAuthManagementService _authenticationService;
 
-        public AuthentificationController(IAuthManagementService authenticationService)
+        public AuthenticationController(IAuthManagementService authenticationService)
         {
             _authenticationService = authenticationService;
-
         }
 
         [HttpPost]
-        [Route("register")] // /api/authentication/register
+        [Route("register")]
         public async Task<ActionResult> RegisterUser(RegisterRequest registerRequest)
         {
             var registerServiceResult = await _authenticationService.RegisterUser(registerRequest);

@@ -14,17 +14,15 @@ namespace dotNetLab2.Services
     {
         public readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
-        private ApplicationDbContext context;
 
         public MoviesService(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
         }
-
         public MoviesService(ApplicationDbContext context)
         {
-            this.context = context;
+            _context = context;
         }
 
         public List<Movie> GetAllAboveRating(int minRating)
@@ -35,16 +33,14 @@ namespace dotNetLab2.Services
 
         public async Task<ServiceResponse<IEnumerable<MovieViewModel>, IEnumerable<EntityManagementError>>> GetMovies()
         {
-            var movies = await _context.Movies
-                .Select(m => _mapper.Map<MovieViewModel>(m))
-                .ToListAsync();
+            var movies = await _context.Movies.Select(m => _mapper.Map<MovieViewModel>(m)).ToListAsync();
 
             var serviceResponse = new ServiceResponse<IEnumerable<MovieViewModel>, IEnumerable<EntityManagementError>>();
             serviceResponse.ResponseOk = movies;
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<MovieViewModel, string>> GetMovie(long id)
+        public async Task<ServiceResponse<MovieViewModel, string>> GetMovie(int id)
         {
             var serviceResponse = new ServiceResponse<MovieViewModel, string>();
             var movie = await _context.Movies
@@ -62,7 +58,7 @@ namespace dotNetLab2.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<IEnumerable<MovieWithCommentsViewModel>, IEnumerable<EntityManagementError>>> GetCommentsForMovie(long id)
+        public async Task<ServiceResponse<IEnumerable<MovieWithCommentsViewModel>, IEnumerable<EntityManagementError>>> GetCommentsForMovie(int id)
         {
             var moviesWithComments = await _context.Movies
                 .Where(m => m.Id == id)
@@ -128,7 +124,7 @@ namespace dotNetLab2.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<Comment, IEnumerable<EntityManagementError>>> PostCommentForMovie(long movieId, CommentViewModel commentRequest)
+        public async Task<ServiceResponse<Comment, IEnumerable<EntityManagementError>>> PostCommentForMovie(int movieId, CommentViewModel commentRequest)
         {
             var serviceResponse = new ServiceResponse<Comment, IEnumerable<EntityManagementError>>();
 
@@ -154,7 +150,7 @@ namespace dotNetLab2.Services
 
             return serviceResponse;
         }
-        public async Task<ServiceResponse<Movie, IEnumerable<EntityManagementError>>> PutMovie(long id, MovieViewModel movieRequest)
+        public async Task<ServiceResponse<Movie, IEnumerable<EntityManagementError>>> PutMovie(int id, MovieViewModel movieRequest)
         {
             var serviceResponse = new ServiceResponse<Movie, IEnumerable<EntityManagementError>>();
 
@@ -175,7 +171,7 @@ namespace dotNetLab2.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<bool, IEnumerable<EntityManagementError>>> DeleteMovie(long id)
+        public async Task<ServiceResponse<bool, IEnumerable<EntityManagementError>>> DeleteMovie(int id)
         {
             var serviceResponse = new ServiceResponse<bool, IEnumerable<EntityManagementError>>();
 
@@ -196,12 +192,12 @@ namespace dotNetLab2.Services
             return serviceResponse;
         }
 
-        public bool MovieExists(long id)
+        public bool MovieExists(int id)
         {
             return _context.Movies.Any(e => e.Id == id);
         }
 
-        public async Task<ServiceResponse<Comment, IEnumerable<EntityManagementError>>> PutComment(long commentId, CommentViewModel commentRequest)
+        public async Task<ServiceResponse<Comment, IEnumerable<EntityManagementError>>> PutComment(int commentId, CommentViewModel commentRequest)
         {
             var serviceResponse = new ServiceResponse<Comment, IEnumerable<EntityManagementError>>();
 
@@ -222,7 +218,7 @@ namespace dotNetLab2.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<bool, IEnumerable<EntityManagementError>>> DeleteComment(long id)
+        public async Task<ServiceResponse<bool, IEnumerable<EntityManagementError>>> DeleteComment(int id)
         {
             var serviceResponse = new ServiceResponse<bool, IEnumerable<EntityManagementError>>();
 
@@ -243,7 +239,7 @@ namespace dotNetLab2.Services
             return serviceResponse;
         }
 
-        public bool CommentExists(long id)
+        public bool CommentExists(int id)
         {
             return _context.Comments.Any(e => e.Id == id);
         }

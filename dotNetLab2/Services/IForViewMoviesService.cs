@@ -15,7 +15,7 @@ namespace dotNetLab2.Services
 
         Task<ServiceResponse<ForViewMoviesForUserResponse, IEnumerable<EntityManagementError>>> GetAllForViewMovies(ApplicationUser user);
 
-        Task<ServiceResponse<ForViewMovie, IEnumerable<EntityManagementError>>> UpdateForViewMovie(int id, NewForViewMoviesRequest updateForViewMovieRequest, ApplicationUser user);
+        Task<ServiceResponse<ForViewMovie, IEnumerable<EntityManagementError>>> EditForViewMovie(int id, NewForViewMoviesRequest updateForViewMovieRequest, ApplicationUser user);
 
         Task<ServiceResponse<bool, IEnumerable<EntityManagementError>>> DeleteForViewMovie(int id);
 
